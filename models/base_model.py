@@ -12,9 +12,11 @@ class BaseModel:
         if kwargs is not None and kwargs != {}:
             for k, v in kwargs.items():
                 if k == "created_at":
-                    setattr(self, k, datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
+                    setattr(self, k,
+                            datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
                 elif k == "updated_at":
-                    setattr(self, k, datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
+                    setattr(self, k,
+                            datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
                 elif k != '__class__':
                     setattr(self, k, v)
         else:
@@ -25,7 +27,8 @@ class BaseModel:
 
     def __str__(self):
         """Function Documentation"""
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__,
+                                     self.id, self.__dict__)
 
     def save(self):
         """Function Documentation"""

@@ -25,20 +25,37 @@ class FileStorage:
             dct[k] = v.to_dict()
         with open(type(self).__file_path, 'w', encoding="utf-8") as file:
             json.dump(dct, file)
-    
+
     def reload(self):
         """Function Documentation"""
         from models.base_model import BaseModel
+        from models.user import User
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
+        from models.state import State
+        classes = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "Amenity": Amenity,
+            "City": City,
+            "Place": Place,
+            "Review": Review,
+            "State": State
+            }
         if os.path.exists(FileStorage.__file_path):
             with open(type(self).__file_path, 'r', encoding="utf-8") as file:
                 objs = json.load(file)
                 for k, v in objs.items():
-                    obj_instance = BaseModel(**v)
+                    for kd, vd in classes.items():
+                        if k.split(".")[0] == kd:
+                            obj_instance = vd(**v)
                     objs[k] = obj_instance
                 FileStorage.__objects = objs
         else:
             return
-        
+
 # class FileStorage:
 #     """Class Documentation"""
 #     __file_path = 'file.json'
